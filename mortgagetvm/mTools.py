@@ -1,3 +1,6 @@
+from .mort import mort
+import numpy as np
+
 # Derived classes for mortgage attributes
 # A mortgage attribute can be either a cost or a rate
 # A cost can be defined as a percent, in which it needs

@@ -1,3 +1,4 @@
+from .mortgageOptions import MortgageOptions
 # Base class for Mortgage() and MortgageComparison()
 # Includes methods of setting defaults and printing
 # attributes        

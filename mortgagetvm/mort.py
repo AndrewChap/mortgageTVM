@@ -1,3 +1,5 @@
+import re
+import pandas as pd
 # Base class for a mortgage attribute
 # Handles either an inputString or an inputValue,
 # finds units, then finds either inputValue or inputString

@@ -1,3 +1,4 @@
+from .mortgageBase import MortgageBase
 class MortgageComparison(MortgageBase):
   def __init__(self, kind = None, *mortgages):
     
