@@ -360,8 +360,6 @@ class Mortgage(MortgageBase):
     rT   = self.taxRate.cRate
     rI   = self.insuranceRate.cRate
     #rD   = self.inflationRate.cRate #"D" is for the depreciation of money
-    print("PI = {}".format(PI))
-    print("PR = {}".format(PR))
     
     for i in range(1,self.numDataPoints.value):
       # j is the index of the beginning of the year, when 
