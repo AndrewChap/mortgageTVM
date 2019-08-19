@@ -304,6 +304,13 @@ class Mortgage(MortgageBase):
                                   helpText    = 'Total cumulative amount '
                                                 'paid to mortgage'))
     self.addAttribute(mCostVector(parent      = self,
+                                  value       = self.downPayment.value,
+                                  varName     = 'totalAmountSpent',
+                                  label       = 'Total amount spent',
+                                  helpText    = 'Total cumulative amount '
+                                                'spent on down payment '
+                                                ' and mortgage'))
+    self.addAttribute(mCostVector(parent      = self,
                                   value       = self.startingCash.value,
                                   varName     = 'totalSavings',
                                   label       = 'Total Savings',
@@ -315,6 +322,13 @@ class Mortgage(MortgageBase):
                                   label       = 'Net Worth after House Sale',
                                   helpText    = 'How much money you would have '
                                                 'if you sold your house now'))
+    self.addAttribute(mCostVector(parent      = self,
+                                  value       = self.downPayment.value + \
+                                                self.allPurchaseFees.value,
+                                  varName     = 'tvmCost',
+                                  label       = 'TVM Mortgage Cost',
+                                  helpText    = 'The total cost of your '
+                                                'mortgage in time-value money'))
     self.addAttribute(mCostVector(parent      = self,
                                   value       = self.downPayment.value + \
                                                 self.allPurchaseFees.value,
@@ -347,6 +361,7 @@ class Mortgage(MortgageBase):
     RI   = self.rentalIncome.data
     RC   = self.cRentalIncome.data
     A    = self.totalAmountPaid.data
+    AD   = self.totalAmountSpent.data
     W    = self.netWorth.data
     S    = self.savings.data
     Y    = self.timeVector.data
@@ -360,7 +375,6 @@ class Mortgage(MortgageBase):
     rT   = self.taxRate.cRate
     rI   = self.insuranceRate.cRate
     #rD   = self.inflationRate.cRate #"D" is for the depreciation of money
-    
     for i in range(1,self.numDataPoints.value):
       # j is the index of the beginning of the year, when 
       # rent/tax/insurance values are recalculated (for 
@@ -383,6 +397,7 @@ class Mortgage(MortgageBase):
       RC[i] = RC[i-1] + RI[i]
       # Calculate total amount paid to mortgage company or landlord
       A[i] = A[i-1] + PI + PR
+      AD[i] = AD[i-1] + PI
       # Calculate Savings
       S[i]  = (S[i-1]*(1+rTVM[i]) - PI - PR) - H[j]*(rT+rI) + RI[i]
       
