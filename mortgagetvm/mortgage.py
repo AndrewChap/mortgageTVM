@@ -224,6 +224,11 @@ class Mortgage(MortgageBase):
                                   helpText    = 'Monthly payment (principal '
                                                 '+ interest)'))
 
+  def update_mortgage(self,options):
+      for key,val in options.items():
+          self.options[key] = val
+      self.setAttributes(self.options)
+
   def simulateMortgage(self):
     self.addAttribute(mTimeVector(parent      = self,
                                   varName     = 'timeVector',
@@ -375,11 +380,14 @@ class Mortgage(MortgageBase):
     rT   = self.taxRate.cRate
     rI   = self.insuranceRate.cRate
     #rD   = self.inflationRate.cRate #"D" is for the depreciation of money
+
     for i in range(1,self.numDataPoints.value):
       # j is the index of the beginning of the year, when 
       # rent/tax/insurance values are recalculated (for 
       # m = 12 payments per year)
       j = i - i%int(m)
+      # Calculate tvm factor from beginning to present (prob need to refactor this)
+      fTVMnow = (1.0+fTVM[0])**i
       # Calculate the interest accrued this month
       I[i] = L[i-1]*rM
       # Portion of monthly payment that pays down principal
@@ -397,12 +405,10 @@ class Mortgage(MortgageBase):
       RC[i] = RC[i-1] + RI[i]
       # Calculate total amount paid to mortgage company or landlord
       A[i] = A[i-1] + PI + PR
-      AD[i] = AD[i-1] + PI
+      AD[i] = AD[i-1] + PI/fTVMnow
       # Calculate Savings
       S[i]  = (S[i-1]*(1+rTVM[i]) - PI - PR) - H[j]*(rT+rI) + RI[i]
       
-      # Calculate tvm factor from beginning to present (prob need to refactor this)
-      fTVMnow = (1.0+fTVM[0])**i
       # Add contributions to TVM cost, factored by TVM factor
       TC[i] = TC[i-1] + PI/fTVMnow + PR/fTVMnow
       # Calculate cost of living in house if sold now (add TVM of loan, subtract tvm proceeds from house sale)
