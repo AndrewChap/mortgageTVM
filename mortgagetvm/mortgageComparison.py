@@ -58,8 +58,10 @@ class MortgageComparison(MortgageBase):
   def addInvestmentProperty(self,**options):
     self.addMortgage(kind='investmentProperty',**options)
 
-  def update_mortgage(self,i,**options):
-    self.mortgages[i].update_mortgage(**options)  
+  def update_mortgages(self,options):
+      for mortgage in self.mortgages:
+          mortgage.update_mortgage(options=options)
+    #self.mortgages[i].update_mortgage(**options)  
     
  
   def simulateMortgages(self):
