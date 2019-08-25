@@ -228,6 +228,7 @@ class Mortgage(MortgageBase):
       for key,val in options.items():
           self.options[key] = val
       self.setAttributes(self.options)
+      self.calculateMonthlyPayment()
 
   def simulateMortgage(self):
     self.addAttribute(mTimeVector(parent      = self,
