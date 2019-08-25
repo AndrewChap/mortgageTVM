@@ -1,4 +1,5 @@
 from .mortgageBase import MortgageBase
+from .mortgage import Mortgage
 class MortgageComparison(MortgageBase):
   def __init__(self, kind = None, *mortgages):
     
@@ -56,6 +57,9 @@ class MortgageComparison(MortgageBase):
   
   def addInvestmentProperty(self,**options):
     self.addMortgage(kind='investmentProperty',**options)
+
+  def update_mortgage(self,i,**options):
+    self.mortgages[i].update_mortgage(**options)  
     
  
   def simulateMortgages(self):
