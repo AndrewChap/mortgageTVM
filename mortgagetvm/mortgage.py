@@ -1,6 +1,8 @@
 from .mortgageBase import MortgageBase
 from .mTools import *
 import pandas as pd
+import pdb
+db = pdb.set_trace
 # Main class for an individual mortgage
 # Made for use with the MortgageComparison class,
 # which compares multiple mortgages
@@ -22,16 +24,21 @@ class Mortgage(MortgageBase):
     self.options = self.populateOptions(kind,**options)  # set default attributes
     self.setAttributes(self.options)
     self.calculateMonthlyPayment()
-    
-  def setAttributes(self,options):
+
+  def setAttributes(self,options):  
+    self.updateAttributes(options)  
     if options['name'] is None:
       self.name = 'myMortgage'
     else:
       self.name = options['name']
+    self.customName = self.name  
     if options['label'] is None:
       self.label = self.name
     else:
       self.label = options['label']
+    self.color = options['color']  
+
+  def updateAttributes(self,options):
   
     # self.fieldlist must be initialized to an empty list before 
     # calling self.addAttribute()
@@ -227,7 +234,7 @@ class Mortgage(MortgageBase):
   def update_mortgage(self,options):
       for key,val in options.items():
           self.options[key] = val
-      self.setAttributes(self.options)
+      self.updateAttributes(self.options)
       self.calculateMonthlyPayment()
 
   def simulateMortgage(self):
@@ -310,7 +317,8 @@ class Mortgage(MortgageBase):
                                   helpText    = 'Total cumulative amount '
                                                 'paid to mortgage'))
     self.addAttribute(mCostVector(parent      = self,
-                                  value       = self.downPayment.value,
+                                  value       = self.downPayment.value + \
+                                                self.originationFees.value,
                                   varName     = 'totalAmountSpent',
                                   label       = 'Total amount spent',
                                   helpText    = 'Total cumulative amount '
