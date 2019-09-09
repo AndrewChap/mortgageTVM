@@ -10,6 +10,7 @@ class MortgageOptions:
     self.optionList['commonDefaults'] = dict(
       name                 =  None ,
       label                =  None , 
+      color                = [0,0,0],
       houseCost            = '100%', # how much you are paying for the house
       mortgageRate         = '0.0%', # Mortgage annual interest rate
       mortgageLength       = '30Y' , # Mortgage length (in years)

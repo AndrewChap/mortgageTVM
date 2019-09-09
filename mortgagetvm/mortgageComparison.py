@@ -17,11 +17,16 @@ class MortgageComparison(MortgageBase):
 
     # create default colors and dash styles
     self.dashCycle = [None,'dash','dot','dashdot']
-    self.colorCycle = ['rgb(205,  12,  24)',
-                       'rgb( 42, 202,  24)',
-                       'rgb(205,  12, 224)',
-                       'rgb(100, 100,  14)',
-                       'rgb(  0, 130, 100)']
+    self.colorCycle = [[205,  12,  24],
+                       [ 42, 202,  24],
+                       [205,  12, 224],
+                       [100, 100,  14],
+                       [  0, 130, 100]]
+    #self.colorCycle = ['rgb(205,  12,  24)',
+    #                   'rgb( 42, 202,  24)',
+    #                   'rgb(205,  12, 224)',
+    #                   'rgb(100, 100,  14)',
+    #                   'rgb(  0, 130, 100)']
     
 
   def setDefaults(self,**defaults):
@@ -34,12 +39,15 @@ class MortgageComparison(MortgageBase):
                   kind = None,
                   mortgage = None,
                   **options):
+    colorIndex = len(self.mortgages)  
+    color = self.colorCycle[colorIndex]
     # If no input mortgage, we need to create it from **options dict
     if mortgage is None:
       mortgageAttributes = self.options.copy() # start with defaults
       for key,val in options.items():           # replace default vals
         mortgageAttributes[key] = val           # with defined options
       #pdb.set_trace()
+      mortgageAttributes['color'] = color
       mortgage = Mortgage(**mortgageAttributes)
     # If the mortgage has no name, give it a generic name
   
