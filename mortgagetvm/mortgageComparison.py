@@ -39,7 +39,7 @@ class MortgageComparison(MortgageBase):
                   kind = None,
                   mortgage = None,
                   **options):
-    colorIndex = len(self.mortgages)  
+    colorIndex = len(self.mortgages) % len(self.colorCycle) 
     color = self.colorCycle[colorIndex]
     # If no input mortgage, we need to create it from **options dict
     if mortgage is None:
